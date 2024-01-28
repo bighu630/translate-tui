@@ -40,7 +40,7 @@ func main() {
 			textView.Clear()
 			textArea.SetText(text, true)
 			textView.Write([]byte(target))
-		case tcell.KeyCtrlI:
+		case tcell.KeyCtrlD:
 			textView.Clear()
 			cmd := exec.Command("gnome-screenshot", "-a", "--file="+imgFile)
 			_, err := cmd.CombinedOutput()
