@@ -1,11 +1,14 @@
 package trans
 
 import (
+	"encoding/base64"
 	"fmt"
+	"log"
 	"os"
 	"path"
 	"path/filepath"
 
+	"github.com/google/uuid"
 	"github.com/pelletier/go-toml"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common"
 	"github.com/tencentcloud/tencentcloud-sdk-go/tencentcloud/common/profile"
@@ -72,5 +75,38 @@ func TranslateText(text string) string {
 	response, _ := client.TextTranslate(request)
 
 	return *response.Response.TargetText
+}
 
+// 翻译img 返回原string 和翻译结果
+func TranslateImg(imgPath string) (string, string) {
+	credential := getKey()
+	client, _ := tmt.NewClient(credential, regions.Guangzhou, profile.NewClientProfile())
+	languageRequest := tmt.NewLanguageDetectRequest()
+	id := int64(0)
+	languageRequest.ProjectId = &id
+	fimg, err := os.ReadFile(imgPath)
+	if err != nil {
+		log.Fatal("failed to open img file")
+	}
+	base64Img := base64.StdEncoding.EncodeToString(fimg)
+
+	request := tmt.NewImageTranslateRequest()
+	auto, target, scene := "auto", "zh", "doc"
+	uuid := uuid.New().String()
+	request.Source = &auto
+	request.Target = &target
+	request.ProjectId = &id
+	request.Data = &base64Img
+	request.Scene = &scene
+	request.SessionUuid = &uuid
+	response, err := client.ImageTranslate(request)
+	if err != nil {
+		return "", ""
+	}
+	sor, resp := "", ""
+	for _, v := range response.Response.ImageRecord.Value {
+		sor += *v.SourceText + " "
+		resp += *v.TargetText + " "
+	}
+	return sor, resp
 }
