@@ -33,3 +33,13 @@ go build
 | c-p           | 翻译剪贴板中的内容 |
 | c-y/ 鼠标右键 | 复制选中框格的内容 |
 | c-i           | 图片识别翻译       |
+
+#### 食用建议
+
+1 绑定一个快捷键，例如 ctrl+shift+s 打开软件
+
+2 该软件基于tui，需要一个终端作为允许基础,可以使用st这类终端，可以指定终端大小
+
+```sh
+st -g 80x20 -A 0.7 -c float -e '/data/code/go/translate-tui/tui'
+```
