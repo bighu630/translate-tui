@@ -42,13 +42,15 @@ func main() {
 	app.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		switch event.Key() {
 		case tcell.KeyEnter:
-			text := readInputString(*textArea)
-			if text == "" {
-				text = "nil"
+			if event.Modifiers() == tcell.ModCtrl {
+				text := readInputString(*textArea)
+				if text == "" {
+					text = "nil"
+				}
+				target := trans.TranslateText(text)
+				textView.Clear()
+				textView.Write([]byte(target))
 			}
-			target := trans.TranslateText(text)
-			textView.Clear()
-			textView.Write([]byte(target))
 		case tcell.KeyCtrlP:
 			text, _ := clipboard.ReadAll()
 			target := trans.TranslateText(text)

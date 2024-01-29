@@ -105,8 +105,8 @@ func TranslateImg(imgPath string) (string, string) {
 	}
 	sor, resp := "", ""
 	for _, v := range response.Response.ImageRecord.Value {
-		sor += *v.SourceText + " "
-		resp += *v.TargetText + " "
+		sor += *v.SourceText + "\n"
+		resp += *v.TargetText + "\n"
 	}
 	return sor, resp
 }
