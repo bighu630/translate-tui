@@ -24,6 +24,21 @@ func main() {
 	mainView := tview.NewFlex().
 		AddItem(textArea, 0, 1, true).
 		AddItem(textView, 0, 1, false)
+	app.SetMouseCapture(func(event *tcell.EventMouse, m tview.MouseAction) (*tcell.EventMouse, tview.MouseAction) {
+		if event.Buttons() == tcell.ButtonSecondary {
+			v := app.GetFocus()
+			if ta, ok := v.(*tview.TextArea); ok {
+				clipboard.WriteAll(ta.GetText())
+			} else if tv, ok := v.(*tview.TextView); ok {
+				clipboard.WriteAll(tv.GetText(true))
+			} else {
+				textView.Clear()
+				textView.Write([]byte("get focus not in right way"))
+			}
+		}
+
+		return event, m
+	})
 	app.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
 		switch event.Key() {
 		case tcell.KeyEnter:
@@ -51,8 +66,15 @@ func main() {
 			textArea.SetText(sor, true)
 			textView.Write([]byte(targ))
 		case tcell.KeyCtrlY:
-			clipboard.WriteAll(textArea.GetText())
-			clipboard.WriteAll(textView.GetText(true))
+			v := app.GetFocus()
+			if ta, ok := v.(*tview.TextArea); ok {
+				clipboard.WriteAll(ta.GetText())
+			} else if tv, ok := v.(*tview.TextView); ok {
+				clipboard.WriteAll(tv.GetText(true))
+			} else {
+				textView.Clear()
+				textView.Write([]byte("get focus not in right way"))
+			}
 		default:
 		}
 		return event
