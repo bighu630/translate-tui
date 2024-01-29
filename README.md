@@ -13,6 +13,10 @@ mv config.toml.example config.toml
 go build
 ```
 
+#### 依赖
+
+- gnome-screenshot : 截图翻译依赖
+
 #### 获取腾讯翻译KEY
 
 参考这篇文章中[腾讯翻译API](https://blog.csdn.net/weixin_44253490/article/details/126365385)部分
