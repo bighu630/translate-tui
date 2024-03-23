@@ -1,6 +1,7 @@
 package app
 
 import (
+	"os"
 	"os/exec"
 	"tui/trans"
 
@@ -11,10 +12,20 @@ import (
 
 const imgFile = "/tmp/trans.png"
 
-func Run(img bool) {
-	if img {
+func screenShot() {
+	out := os.Getenv("XDG_SESSION_TYPE")
+	if string(out) == "x11" {
 		cmd := exec.Command("gnome-screenshot", "-a", "--file="+imgFile)
 		cmd.CombinedOutput()
+	} else if string(out) == "wayland" {
+		cmd := exec.Command("spectacle", "-r", "-n", "-b", "-o", imgFile)
+		cmd.CombinedOutput()
+	}
+}
+
+func Run(img bool) {
+	if img {
+		screenShot()
 	}
 	app := tview.NewApplication()
 
@@ -49,7 +60,7 @@ func Run(img bool) {
 	})
 
 	app.SetInputCapture(func(event *tcell.EventKey) *tcell.EventKey {
-		if event.Key() == tcell.KeyCtrlBackslash {
+		if event.Key() == tcell.KeyEnter {
 			text := readInputString(*textArea)
 			if text == "" {
 				text = "nil"
@@ -59,16 +70,16 @@ func Run(img bool) {
 			textView.Write([]byte(target))
 		}
 		switch event.Key() {
-		// case tcell.KeyEnter:
-		// 	if event.Modifiers() == tcell.ModCtrl {
-		// 		text := readInputString(*textArea)
-		// 		if text == "" {
-		// 			text = "nil"
-		// 		}
-		// 		target := trans.TranslateText(text)
-		// 		textView.Clear()
-		// 		textView.Write([]byte(target))
-		// 	}
+		case tcell.KeyEnter:
+			if event.Modifiers() == tcell.ModCtrl {
+				text := readInputString(*textArea)
+				if text == "" {
+					text = "nil"
+				}
+				target := trans.TranslateText(text)
+				textView.Clear()
+				textView.Write([]byte(target))
+			}
 		case tcell.KeyCtrlP:
 			text, _ := clipboard.ReadAll()
 			target := trans.TranslateText(text)
@@ -77,11 +88,7 @@ func Run(img bool) {
 			textView.Write([]byte(target))
 		case tcell.KeyCtrlD:
 			textView.Clear()
-			cmd := exec.Command("gnome-screenshot", "-a", "--file="+imgFile)
-			_, err := cmd.CombinedOutput()
-			if err != nil {
-				textView.Write([]byte(err.Error()))
-			}
+			screenShot()
 			sor, targ := trans.TranslateImg(imgFile)
 			textArea.SetText(sor, true)
 			textView.Write([]byte(targ))
@@ -95,6 +102,8 @@ func Run(img bool) {
 				textView.Clear()
 				textView.Write([]byte("get focus not in right way"))
 			}
+		case tcell.KeyCtrlC:
+			textArea.SetText("", true)
 		default:
 		}
 		return event

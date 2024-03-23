@@ -15,7 +15,8 @@ go build
 
 #### 依赖
 
-- gnome-screenshot : 截图翻译依赖
+- gnome-screenshot : 截图翻译依赖,for x11
+- spectacle : for wayland
 
 #### 获取腾讯翻译KEY
 
@@ -30,6 +31,7 @@ go build
 | key           | 作用               |
 | ------------- | ------------------ |
 | c-\           | 翻译From框中的内容 |
+| enter         | 翻译From框中的内容 |
 | c-p           | 翻译剪贴板中的内容 |
 | c-y/ 鼠标右键 | 复制选中框格的内容 |
 | c-d           | 图片识别翻译       |
@@ -43,3 +45,9 @@ go build
 ```sh
 st -g 80x20 -A 0.7 -c float -e '/data/code/go/translate-tui/tui'
 ```
+
+#### for kde
+
+如果您使用kde，并且使用上述命令作为tui的终端,您可以在设置 -> 窗口管理 -> 窗口规则 里面添加如下规则
+
+![窗口规则](https://i.imgur.com/IjDzrRf.jpeg)
