@@ -22,7 +22,7 @@ go build
 
 参考这篇文章中[腾讯翻译API](https://blog.csdn.net/weixin_44253490/article/details/126365385)部分
 
-拿到ABI后将对应字段复制到config.toml中
+拿到APIKEY后将对应字段复制到config.toml中
 
 #### 快捷键
 
