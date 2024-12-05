@@ -3,6 +3,7 @@ package app
 import (
 	"os"
 	"os/exec"
+	"strings"
 	"tui/trans"
 
 	"github.com/atotto/clipboard"
@@ -13,12 +14,16 @@ import (
 const imgFile = "/tmp/trans.png"
 
 func screenShot() {
-	out := os.Getenv("XDG_SESSION_TYPE")
+	out := os.Getenv("XDG_SESSION_DESKTOP")
 	if string(out) == "x11" {
 		cmd := exec.Command("gnome-screenshot", "-a", "--file="+imgFile)
 		cmd.CombinedOutput()
 	} else if string(out) == "wayland" {
 		cmd := exec.Command("spectacle", "-r", "-n", "-b", "-o", imgFile)
+		cmd.CombinedOutput()
+	} else if string(out) == "Hyprland" {
+		area, _ := exec.Command("slurp").Output()
+		cmd := exec.Command("grim", "-g", strings.ReplaceAll(string(area), "\n", ""), imgFile)
 		cmd.CombinedOutput()
 	}
 }
