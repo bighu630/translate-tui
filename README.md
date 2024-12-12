@@ -1,6 +1,16 @@
-### 效果图
+#### 快捷键
 
-!!! 新增图片识别翻译
+> 打开程序后程序捕捉到的快捷键
+
+| key           | 作用               |
+| ------------- | ------------------ |
+| c-\           | 翻译From框中的内容 |
+| enter         | 翻译From框中的内容 |
+| c-p           | 翻译剪贴板中的内容 |
+| c-y/ 鼠标右键 | 复制选中框格的内容 |
+| c-d           | 图片识别翻译       |
+
+### 效果图
 
 ![tui翻译效果图](https://s1.ax1x.com/2023/08/06/pPAYaWj.png)
 
@@ -16,25 +26,14 @@ go build
 #### 依赖
 
 - gnome-screenshot : 截图翻译依赖,for x11
-- spectacle : for wayland
+- spectacle : kde截图软件
+- grim + slurp : Hyprland Sway 截图软件
 
 #### 获取腾讯翻译KEY
 
 参考这篇文章中[腾讯翻译API](https://blog.csdn.net/weixin_44253490/article/details/126365385)部分
 
 拿到APIKEY后将对应字段复制到config.toml中
-
-#### 快捷键
-
-> 打开程序后程序捕捉到的快捷键
-
-| key           | 作用               |
-| ------------- | ------------------ |
-| c-\           | 翻译From框中的内容 |
-| enter         | 翻译From框中的内容 |
-| c-p           | 翻译剪贴板中的内容 |
-| c-y/ 鼠标右键 | 复制选中框格的内容 |
-| c-d           | 图片识别翻译       |
 
 #### 食用建议
 

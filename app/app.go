@@ -15,13 +15,13 @@ const imgFile = "/tmp/trans.png"
 
 func screenShot() {
 	out := os.Getenv("XDG_SESSION_DESKTOP")
-	if string(out) == "x11" {
+	if string(out) == "DWM" || string(out) == "XMonad" || string(out) == "i3" || string(out) == "bspwm" {
 		cmd := exec.Command("gnome-screenshot", "-a", "--file="+imgFile)
 		cmd.CombinedOutput()
-	} else if string(out) == "wayland" {
+	} else if string(out) == "wayland" || string(out) == "KDE" {
 		cmd := exec.Command("spectacle", "-r", "-n", "-b", "-o", imgFile)
 		cmd.CombinedOutput()
-	} else if string(out) == "Hyprland" {
+	} else if string(out) == "Hyprland" || string(out) == "Sway" {
 		area, _ := exec.Command("slurp").Output()
 		cmd := exec.Command("grim", "-g", strings.ReplaceAll(string(area), "\n", ""), imgFile)
 		cmd.CombinedOutput()
