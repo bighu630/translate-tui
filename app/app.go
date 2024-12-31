@@ -4,7 +4,7 @@ import (
 	"os"
 	"os/exec"
 	"strings"
-	"tui/trans"
+	trans "tui/trans/tencent"
 
 	"github.com/atotto/clipboard"
 	"github.com/gdamore/tcell/v2"
@@ -107,7 +107,7 @@ func Run(img bool) {
 				textView.Clear()
 				textView.Write([]byte("get focus not in right way"))
 			}
-		case tcell.KeyCtrlC:
+		case tcell.KeyCtrlA:
 			textArea.SetText("", true)
 		default:
 		}

@@ -18,6 +18,10 @@ import (
 
 var keyPath = "config.toml"
 
+type TencentClient struct {
+	client *tmt.Client
+}
+
 func init() {
 	exePath, err := os.Executable()
 	if err != nil {
